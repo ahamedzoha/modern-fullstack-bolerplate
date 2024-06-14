@@ -1,12 +1,9 @@
-import { Button } from "@/components/ui/button";
-import { ThemeModeToggle } from "@/components/ui/theme-mode-toggle";
-import Image from "next/image";
+import { LandingNav } from "@/components/modules/landing-nav";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <Button size="sm">Click me</Button>
-      <ThemeModeToggle />
+    <main className="w-full flex">
+      <LandingNav />
     </main>
   );
 }
