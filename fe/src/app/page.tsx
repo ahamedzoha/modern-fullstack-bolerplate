@@ -1,4 +1,7 @@
+"use client"
+
 import { LandingNav } from "@/components/modules/landing-nav"
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
 
 export default function Home() {
   return (

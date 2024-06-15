@@ -120,7 +120,7 @@ export function LandingNav() {
           <NavigationMenuItem>
             <NavigationMenuLink
               className={navigationMenuTriggerStyle()}
-              href="/auth/sign-in"
+              href="/sign-in"
             >
               Sign In / Sign Up
             </NavigationMenuLink>
