@@ -1,4 +1,4 @@
-import { LandingNav } from '@/components/modules/landing-nav'
+import { LandingNav } from "@/components/modules/landing-nav"
 
 export default function Home() {
   return (
