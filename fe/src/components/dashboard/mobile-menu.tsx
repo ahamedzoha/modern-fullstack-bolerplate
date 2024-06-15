@@ -1,17 +1,15 @@
+"use client"
+
 import SidebarNavItem from "./sidebar-nav-item"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import routes from "@/config/routes"
 import { PanelLeft } from "lucide-react"
-import {
-  Home,
-  Package,
-  Package2,
-  ShoppingCart,
-  Users2,
-  LineChart,
-} from "lucide-react"
+import { usePathname, useRouter } from "next/navigation"
 
 const MobileMenu = () => {
+  const pathname = usePathname()
+  console.log(pathname)
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -22,17 +20,17 @@ const MobileMenu = () => {
       </SheetTrigger>
       <SheetContent side="left" className="sm:max-w-xs">
         <nav className="grid gap-6 text-lg font-medium">
-          <SidebarNavItem href="#" icon={Package2} label="Acme Inc" isPrimary />
-          <SidebarNavItem href="#" icon={Home} label="Dashboard" />
-          <SidebarNavItem
-            href="#"
-            icon={ShoppingCart}
-            label="Orders"
-            isAccent
-          />
-          <SidebarNavItem href="#" icon={Package} label="Products" />
-          <SidebarNavItem href="#" icon={Users2} label="Customers" />
-          <SidebarNavItem href="#" icon={LineChart} label="Settings" />
+          {routes.map((route) => (
+            <SidebarNavItem
+              key={route.href}
+              href={route.href}
+              icon={route.icon}
+              label={route.label}
+              isPrimary={route.isPrimary}
+              showLabel
+              isActive={pathname === route.href}
+            />
+          ))}
         </nav>
       </SheetContent>
     </Sheet>
