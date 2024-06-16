@@ -3,6 +3,9 @@ import Sidebar from "@/components/dashboard/sidebar"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { FC, PropsWithChildren } from "react"
 
+/**
+ * Component for rendering the dashboard layout.
+ */
 const DashboardLayout: FC<PropsWithChildren> = ({ children }) => {
   return (
     <TooltipProvider>

@@ -5,8 +5,11 @@ import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { protectedRoutes } from "@/config/routes"
 import { PanelLeft } from "lucide-react"
-import { usePathname, useRouter } from "next/navigation"
+import { usePathname } from "next/navigation"
 
+/**
+ * Component for rendering the mobile menu.
+ */
 const MobileMenu = () => {
   const pathname = usePathname()
   return (

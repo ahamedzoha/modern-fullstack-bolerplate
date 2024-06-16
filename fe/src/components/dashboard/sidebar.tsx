@@ -5,6 +5,9 @@ import SidebarNavItem from "./sidebar-nav-item"
 import { protectedRoutes } from "@/config/routes"
 import { usePathname } from "next/navigation"
 
+/**
+ * Component for rendering the sidebar navigation.
+ */
 const Sidebar = () => {
   const pathname = usePathname()
 

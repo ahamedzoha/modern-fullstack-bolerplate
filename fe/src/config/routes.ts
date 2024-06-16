@@ -7,9 +7,13 @@ import {
   Users2,
   Settings,
   LucideIcon,
+  Building2,
 } from "lucide-react"
 import { FC, HTMLProps } from "react"
 
+/**
+ * Interface for protected route configuration.
+ */
 export interface IProtectedRoute {
   href: string
   icon: LucideIcon | FC
@@ -18,6 +22,9 @@ export interface IProtectedRoute {
   isAccent?: boolean
 }
 
+/**
+ * Interface for public route children configuration.
+ */
 export interface IPublicRouteChildren {
   title: string
   href: string
@@ -27,6 +34,9 @@ export interface IPublicRouteChildren {
   highlight?: boolean
 }
 
+/**
+ * Interface for public route configuration.
+ */
 export interface IPublicRoute {
   title: string
   href?: string
@@ -35,7 +45,7 @@ export interface IPublicRoute {
 }
 
 const protectedRoutes: IProtectedRoute[] = [
-  { href: "", icon: Package2, label: "Acme Inc", isPrimary: true },
+  { href: "", icon: Building2, label: "Acme Inc", isPrimary: true },
   { href: "/dashboard", icon: Home, label: "Dashboard" },
   { href: "/orders", icon: ShoppingCart, label: "Orders", isAccent: true },
   { href: "/products", icon: Package, label: "Products" },

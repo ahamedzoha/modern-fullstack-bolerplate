@@ -15,6 +15,9 @@ import { useAuth } from "@clerk/nextjs"
 import Link from "next/link"
 import * as React from "react"
 
+/**
+ * Component for rendering the landing navigation menu.
+ */
 export function LandingNav() {
   const { isLoaded, isSignedIn, signOut } = useAuth()
 
@@ -52,6 +55,7 @@ export function LandingNav() {
                                 className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
                                 href={child.href}
                               >
+                                {/* TODO: Replace this with 6x6 next/image */}
                                 <div className="h-6 w-6 bg-slate-200" />
                                 <div className="mb-2 mt-4 text-lg font-medium">
                                   {child.title}
@@ -124,6 +128,9 @@ export function LandingNav() {
   )
 }
 
+/**
+ * List item component for rendering a navigation menu link.
+ */
 const ListItem = React.forwardRef<
   React.ElementRef<"a">,
   React.ComponentPropsWithoutRef<"a">
