@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -7,9 +9,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useAuth, useUser } from "@clerk/nextjs"
 import Image from "next/image"
 
 const UserMenu = () => {
+  const { user } = useUser()
+  const { signOut } = useAuth()
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -19,7 +24,7 @@ const UserMenu = () => {
           className="overflow-hidden rounded-full"
         >
           <Image
-            src="/placeholder-user.jpg"
+            src={user?.imageUrl || "/images/avatar-placeholder.png"}
             width={36}
             height={36}
             alt="Avatar"
@@ -33,7 +38,7 @@ const UserMenu = () => {
         <DropdownMenuItem>Settings</DropdownMenuItem>
         <DropdownMenuItem>Support</DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Logout</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => signOut()}>Logout</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )
