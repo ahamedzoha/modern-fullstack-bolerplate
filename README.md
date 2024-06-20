@@ -4,11 +4,30 @@ Welcome to your Full-Stack Boilerplate! This project provides a seamless integra
 
 ## 🌟 Technologies Used
 
-- **Frontend**: [Next.js](https://nextjs.org/)
-- **Backend**: [NestJS](https://nestjs.com/)
-- **Database**: [PostgreSQL](https://www.postgresql.org/)
-- **Reverse Proxy**: [NGINX](https://www.nginx.com/)
-- **Containerization**: [Docker](https://www.docker.com/)
+### Frontend (FE)
+
+- **[Next.js 14.2.4](https://nextjs.org/)**: The React framework for production.
+- **[TypeScript](https://www.typescriptlang.org/)**: Typed JavaScript at Any Scale.
+- **[Tailwind CSS](https://tailwindcss.com/)**: A utility-first CSS framework for rapid UI development.
+- **[ShadcnUI](https://shadcn.dev/)**: A customizable component library.
+- **[Radix UI](https://www.radix-ui.com/)**: Unstyled, accessible components for building high-quality web applications.
+- **[lucide-react](https://lucide.dev/docs/lucide-react)**: Beautiful & consistent icon toolkit.
+- **[Zod](https://zod.dev/)**: TypeScript-first schema declaration and validation library.
+- **[Clerk](https://clerk.dev/)**: Complete user management solution for authentication.
+- **[next-themes](https://github.com/pacocoursey/next-themes)**: An abstraction for themes in Next.js.
+
+### Backend (BE)
+
+- **[NestJS](https://nestjs.com/)**: A progressive Node.js framework for building efficient, reliable, and scalable server-side applications.
+- **[Clerk SDK Node](https://clerk.dev/docs/node)**: Clerk SDK for integrating authentication and user management.
+- **[TypeScript](https://www.typescriptlang.org/)**: Typed JavaScript at Any Scale.
+- **[TypeORM](https://typeorm.io/)**: ORM for TypeScript and JavaScript (ES7, ES6, ES5).
+
+### Additional Technologies
+
+- **[PostgreSQL](https://www.postgresql.org/)**: The world’s most advanced open-source relational database.
+- **[NGINX](https://www.nginx.com/)**: High-performance HTTP server, reverse proxy, and IMAP/POP3 proxy server.
+- **[Docker](https://www.docker.com/)**: Platform to develop, ship, and run applications in containers.
 
 ## 🚀 Getting Started
 
@@ -26,8 +45,8 @@ Make sure you have the following installed:
 1. **Clone the repository**
 
    ```sh
-   git clone https://github.com/yourusername/your-repo-name.git
-   cd your-repo-name
+   git clone https://github.com/ahamedzoha/modern-fullstack-bolerplate.git
+   cd modern-fullstack-bolerplate
    ```
 
 2. **Configure Environment Variables**
@@ -94,12 +113,32 @@ Make sure you have the following installed:
 - **Production**: Consider using Docker Compose override files (`docker-compose.override.yml`) to adjust settings for different environments (dev, staging, production).
 - **Scaling**: For larger applications, consider using Kubernetes for orchestration.
 
+## 🔐 Authentication with Clerk
+
+This boilerplate uses **Clerk** for authentication, ensuring a seamless and secure user management experience.
+
+- **Frontend**: Authentication is handled by Clerk's React components and hooks.
+- **Backend**: Requests are authenticated using Clerk's SDK and cookie parser, ensuring secure and verified communication between frontend and backend.
+
+### Authentication Flow
+
+```mermaid
+graph TD
+    A[User] -->|Login/Signup| B[Clerk Frontend SDK]
+    B -->|Generate Token| C[Frontend (Next.js)]
+    C -->|Send Request with Token| D[Backend (NestJS)]
+    D -->|Verify Token| E[Clerk Backend SDK]
+    E -->|Validated Request| F[Backend Logic]
+    F -->|Response| G[Frontend (Next.js)]
+    G -->|Display Data| A[User]
+```
+
 ## 🌟 Star the Repository
 
-If you find this project helpful, please give it a ⭐️ on [GitHub](https://github.com/yourusername/your-repo-name)! Your support is greatly appreciated.
+If you find this project helpful, please give it a ⭐️ on [GitHub](https://github.com/ahamedzoha/modern-fullstack-bolerplate)! Your support is greatly appreciated.
 
 ---
 
 Happy coding! 🎉
 
-For any issues or contributions, feel free to open a pull request or issue on the [GitHub repository](https://github.com/yourusername/your-repo-name).
+For any issues or contributions, feel free to open a pull request or issue on the [GitHub repository](https://github.com/ahamedzoha/modern-fullstack-bolerplate).
