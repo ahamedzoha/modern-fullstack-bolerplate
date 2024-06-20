@@ -1,4 +1,5 @@
-import { User, PaginatedResponseJSON } from "@clerk/backend"
+import { API_BASE_URL } from "@/lib/env"
+import { User } from "@clerk/backend"
 import { cookies } from "next/headers"
 
 export interface UserListResponse {
@@ -7,7 +8,7 @@ export interface UserListResponse {
 }
 
 export const getUsers = async (): Promise<UserListResponse> => {
-  const response = await fetch("http://localhost:3001/users", {
+  const response = await fetch(`${API_BASE_URL}/users`, {
     headers: {
       Cookie: cookies().toString(),
     },

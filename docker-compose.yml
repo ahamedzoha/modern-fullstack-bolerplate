@@ -1,0 +1,76 @@
+version: "3.8"
+services:
+  backend:
+    build:
+      context: ./be
+    container_name: nest_app
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./be:/app
+      - /app/node_modules
+    env_file:
+      - ./be/.env
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./fe
+    container_name: next_app
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./fe:/app
+      - /app/node_modules
+    env_file:
+      - ./fe/.env.local
+    networks:
+      - app-network
+
+  postgres:
+    image: postgres:13
+    container_name: postgres_db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    networks:
+      - app-network
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - app-network
+
+volumes:
+  postgres_data:
+
+networks:
+  app-network:
+    driver: bridge
