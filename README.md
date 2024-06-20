@@ -94,25 +94,6 @@ Make sure you have the following installed:
 
    This command will build and start the backend, frontend, PostgreSQL, pgAdmin, and NGINX services.
 
-### Access the Application
-
-- **Frontend**: http://localhost
-- **Backend**: http://localhost/api
-- **pgAdmin**: http://localhost:5050
-
-## ⚠️ Warnings and Tips
-
-- **Database Synchronization**: The backend is configured to synchronize the database schema on startup. **Do not use this in production** as it may lead to data loss.
-- **Environment Variables**: Make sure all environment variables are correctly set in the `.env` files.
-- **Port Conflicts**: Ensure the ports specified in the `docker-compose.yml` are not in use by other applications.
-- **Data Persistence**: Data in PostgreSQL is persisted using Docker volumes. Make sure to back up the volumes if necessary.
-
-## 💡 Tips
-
-- **Development**: For a smoother development experience, you can run `docker-compose up` without the `--build` flag to start the services without rebuilding the images.
-- **Production**: Consider using Docker Compose override files (`docker-compose.override.yml`) to adjust settings for different environments (dev, staging, production).
-- **Scaling**: For larger applications, consider using Kubernetes for orchestration.
-
 ## 🔐 Authentication with Clerk
 
 This boilerplate uses **Clerk** for authentication, ensuring a seamless and secure user management experience.
@@ -145,8 +126,26 @@ sequenceDiagram
     ClerkBackendSDK ->> BackendLogic: Validated Request
     BackendLogic ->> Frontend: Response
     Frontend ->> User: Display Data
-
 ```
+
+### Access the Application
+
+- **Frontend**: http://localhost
+- **Backend**: http://localhost/api
+- **pgAdmin**: http://localhost:5050
+
+## ⚠️ Warnings and Tips
+
+- **Database Synchronization**: The backend is configured to synchronize the database schema on startup. **Do not use this in production** as it may lead to data loss.
+- **Environment Variables**: Make sure all environment variables are correctly set in the `.env` files.
+- **Port Conflicts**: Ensure the ports specified in the `docker-compose.yml` are not in use by other applications.
+- **Data Persistence**: Data in PostgreSQL is persisted using Docker volumes. Make sure to back up the volumes if necessary.
+
+## 💡 Tips
+
+- **Development**: For a smoother development experience, you can run `docker-compose up` without the `--build` flag to start the services without rebuilding the images.
+- **Production**: Consider using Docker Compose override files (`docker-compose.override.yml`) to adjust settings for different environments (dev, staging, production).
+- **Scaling**: For larger applications, consider using Kubernetes for orchestration.
 
 ## 🌟 Star the Repository
 
