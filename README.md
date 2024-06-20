@@ -124,13 +124,25 @@ This boilerplate uses **Clerk** for authentication, ensuring a seamless and secu
 
 ```mermaid
 graph TD
-    A[User] -->|Login/Signup| B[Clerk Frontend SDK]
-    B -->|Generate Token| C[Frontend (Next.js)]
-    C -->|Send Request with Token| D[Backend (NestJS)]
-    D -->|Verify Token| E[Clerk Backend SDK]
+    subgraph Frontend
+        C["Frontend (Next.js)"]
+        B["Clerk Frontend SDK"]
+        C --> B
+    end
+
+    A[User] -->|Login/Signup| B
+    B -->|Generate Token| C
+    C -->|Send Request with Token| D["Backend (NestJS)"]
+    D -->|Verify Token| E["Clerk Backend SDK"]
     E -->|Validated Request| F[Backend Logic]
-    F -->|Response| G[Frontend (Next.js)]
-    G -->|Display Data| A[User]
+    F -->|Response| C
+    C -->|Display Data| A
+
+    style Frontend fill:#e0f0e0,stroke:#080
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style D fill:#ccf,stroke:#06f,stroke-width:2px
+    style E fill:#ffc,stroke:#f60
+    style F fill:#afa
 ```
 
 ## 🌟 Star the Repository
