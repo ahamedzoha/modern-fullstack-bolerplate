@@ -11,6 +11,7 @@ export class ClerkAuthGuardGuard implements CanActivate {
   private readonly logger = new Logger(ClerkAuthGuardGuard.name);
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
+    console.log({ request });
     const token = request.cookies['__session'];
 
     try {
