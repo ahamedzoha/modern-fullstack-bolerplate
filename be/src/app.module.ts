@@ -23,7 +23,7 @@ import { LoggingInterceptor } from './global/logging.interceptor';
         database: configService.get<string>('DB_NAME'),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         autoLoadEntities: true,
-        synchronize: true, // Don't use this in production
+        synchronize: configService.get<boolean>('DB_SYNCHRONIZE'), // Don't use this in production
       }),
       inject: [ConfigService],
     }),
