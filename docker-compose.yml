@@ -1,14 +1,14 @@
-version: "3.8"
 services:
   backend:
     build:
       context: ./be
+      target: development
     container_name: nest_app
     ports:
       - "3001:3001"
     volumes:
-      - ./be:/app
-      - /app/node_modules
+      - ./be:/usr/src/app
+      - /usr/src/app/node_modules
     env_file:
       - ./be/.env
     depends_on:
