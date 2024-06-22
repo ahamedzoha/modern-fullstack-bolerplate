@@ -1,6 +1,7 @@
-import { Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { ClerkAuthGuardGuard } from 'src/clerk-auth/clerk-auth.guard';
 import { UsersService } from './users.service';
+import { UserWebhookEvent } from '@clerk/clerk-sdk-node';
 
 @Controller('users')
 export class UsersController {
@@ -18,7 +19,12 @@ export class UsersController {
   }
 
   @Post('sync-user')
-  syncUser() {
-    return 'sync user';
+  syncUser(@Body() event: UserWebhookEvent) {
+    return this.usersService.syncUser(event);
+  }
+
+  @Get('db-users')
+  getDbUsers() {
+    return this.usersService.getDbUsers();
   }
 }
