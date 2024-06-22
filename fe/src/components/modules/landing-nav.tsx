@@ -86,14 +86,14 @@ export function LandingNav() {
           {/* Sign up/sign in */}
           {isLoaded && !isSignedIn && (
             <>
-              <NavigationMenuItem>
+              <NavigationMenuItem className="cursor-pointer">
                 <Link href="/sign-in" legacyBehavior passHref>
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                     Sign in
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
-              <NavigationMenuItem>
+              <NavigationMenuItem className="cursor-pointer">
                 <Link href="/sign-up" legacyBehavior passHref>
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                     Sign up
@@ -105,14 +105,14 @@ export function LandingNav() {
           {/* Signed in Dashboard */}
           {isLoaded && isSignedIn && (
             <>
-              <NavigationMenuItem>
+              <NavigationMenuItem className="cursor-pointer">
                 <Link href="/dashboard" legacyBehavior passHref>
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                     Dashboard
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
-              <NavigationMenuItem>
+              <NavigationMenuItem className="cursor-pointer">
                 <NavigationMenuLink
                   className={navigationMenuTriggerStyle()}
                   onClick={() => signOut()}
