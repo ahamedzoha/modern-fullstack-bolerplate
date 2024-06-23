@@ -31,12 +31,12 @@ tunnels:
     addr: 80
     proto: http
     domain: ${NGROK_DOMAIN}
-    host_header: ${NGROK_HOST_HEADER}
+    host_header: ${NGROK_DOMAIN}
   nginx-https:
     addr: 443
     proto: http
     domain: ${NGROK_DOMAIN}
-    host_header: ${NGROK_HOST_HEADER}
+    host_header: ${NGROK_DOMAIN}
 EOF
 
 echo "ngrok.yml has been generated with environment variables."
