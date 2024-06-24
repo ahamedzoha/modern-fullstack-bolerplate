@@ -121,6 +121,10 @@ http {
         listen 80;
         server_name ${CUSTOM_DOMAIN};
 
+EOF
+
+if [ "$SETUP_SSL" = "y" ]; then
+    cat <<EOF >> nginx/nginx.conf
         location / {
             return 301 https://\$host\$request_uri;
         }
@@ -135,6 +139,13 @@ http {
         ssl_protocols TLSv1.2 TLSv1.3;
         ssl_ciphers HIGH:!aNULL:!MD5;
 
+EOF
+else
+    cat <<EOF >> nginx/nginx.conf
+EOF
+fi
+
+cat <<EOF >> nginx/nginx.conf
         location / {
             proxy_pass http://next_app:3000;
             proxy_set_header Host \$host;
@@ -156,32 +167,6 @@ http {
     server {
         listen 80;
         server_name ${NGROK_DOMAIN};
-
-        location / {
-            proxy_pass http://next_app:3000;
-            proxy_set_header Host \$host;
-            proxy_set_header X-Real-IP \$remote_addr;
-            proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto \$scheme;
-        }
-
-        location /api {
-            proxy_pass http://nest_app:3001;
-            proxy_set_header Host \$host;
-            proxy_set_header X-Real-IP \$remote_addr;
-            proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto \$scheme;
-        }
-    }
-
-    server {
-        listen 443 ssl;
-        server_name ${NGROK_DOMAIN};
-
-        ssl_certificate /etc/nginx/ssl/cert.pem;
-        ssl_certificate_key /etc/nginx/ssl/key.pem;
-        ssl_protocols TLSv1.2 TLSv1.3;
-        ssl_ciphers HIGH:!aNULL:!MD5;
 
         location / {
             proxy_pass http://next_app:3000;
