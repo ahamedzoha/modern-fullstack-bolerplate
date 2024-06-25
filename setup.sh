@@ -238,8 +238,8 @@ print_message "NGINX configuration created."
 
 # Step 8: Build and Start the Services
 print_message "Step 9: Building and starting the services..."
-# TODO : Add --build
-docker-compose up -d || {
+
+docker-compose up --build -d || {
     print_error "Failed to build and start the services."
     exit 1
 }

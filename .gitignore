@@ -1,2 +1,5 @@
 .env
 ngrok.yml
+
+# SSL directory pem files in nginx
+nginx/ssl/
