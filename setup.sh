@@ -33,11 +33,6 @@ if ! command_exists ngrok; then
     exit 1
 fi
 
-if ! command_exists certbot; then
-    print_error "Certbot is not installed. Please install Certbot from https://certbot.eff.org/"
-    exit 1
-fi
-
 print_message "All prerequisites are installed."
 
 # Step 2: Get user input
@@ -46,21 +41,33 @@ print_message "Step 2: Gathering user input..."
 read -p "Enter your custom domain (e.g., services.azazahamed.com): " CUSTOM_DOMAIN
 read -p "Enter your ngrok auth token: " NGROK_AUTH_TOKEN
 read -p "Enter your ngrok domain (e.g., abc.ngrok-free.app): " NGROK_DOMAIN
+read -p "Please enter your Clerk Publishable Key: " CLERK_PUBLISHABLE_KEY
+read -p "Please enter your Clerk Secret": CLERK_SECRET_KEY
+read -p "Do you want to set up SSL certificates with Certbot? (y/n): " SETUP_SSL
 
-# Step 3: Generate SSL certificates
-print_message "Step 3: Generating SSL certificates with Certbot..."
+# Step 3: Generate SSL certificates (optional)
+if [ "$SETUP_SSL" = "y" ]; then
+    if ! command_exists certbot; then
+        print_error "Certbot is not installed. Please install Certbot from https://certbot.eff.org/"
+        exit 1
+    fi
 
-sudo mkdir -p /etc/letsencrypt/live/${CUSTOM_DOMAIN}
-sudo certbot certonly --standalone -d ${CUSTOM_DOMAIN} || {
-    print_error "Failed to generate SSL certificates with Certbot."
-    exit 1
-}
+    print_message "Step 3: Generating SSL certificates with Certbot..."
 
-mkdir -p nginx/ssl
-sudo cp /etc/letsencrypt/live/${CUSTOM_DOMAIN}/fullchain.pem nginx/ssl/cert.pem
-sudo cp /etc/letsencrypt/live/${CUSTOM_DOMAIN}/privkey.pem nginx/ssl/key.pem
+    sudo mkdir -p /etc/letsencrypt/live/${CUSTOM_DOMAIN}
+    sudo certbot certonly --standalone -d ${CUSTOM_DOMAIN} || {
+        print_error "Failed to generate SSL certificates with Certbot."
+        exit 1
+    }
 
-print_message "SSL certificates copied to nginx/ssl/."
+    mkdir -p nginx/ssl
+    sudo cp /etc/letsencrypt/live/${CUSTOM_DOMAIN}/fullchain.pem nginx/ssl/cert.pem
+    sudo cp /etc/letsencrypt/live/${CUSTOM_DOMAIN}/privkey.pem nginx/ssl/key.pem
+
+    print_message "SSL certificates copied to nginx/ssl/."
+else
+    print_message "Skipping SSL setup."
+fi
 
 # Step 4: Create .env file
 print_message "Step 4: Creating .env file..."
@@ -81,8 +88,8 @@ print_message "Root .env file created."
 # Step 5: Create frontend .env.local file
 mkdir -p fe
 cat <<EOF > fe/.env.local
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=**YOUR_CLERK_PUBLISHABLE_KEY**
-CLERK_SECRET_KEY=**YOUR_CLERK_SECRET_KEY**
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${CLERK_PUBLISHABLE_KEY}
+CLERK_SECRET_KEY=${CLERK_SECRET_KEY}
 
 NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
 NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
@@ -96,7 +103,7 @@ print_message "Frontend .env.local file created."
 # Step 6: Create backend .env file
 mkdir -p be
 cat <<EOF > be/.env
-CLERK_SECRET_KEY=**YOUR_CLERK_SECRET_KEY**
+CLERK_SECRET_KEY=${CLERK_SECRET_KEY}
 
 DB_HOST=postgres
 DB_PORT=5432
@@ -120,7 +127,6 @@ http {
     server {
         listen 80;
         server_name ${CUSTOM_DOMAIN};
-
 EOF
 
 if [ "$SETUP_SSL" = "y" ]; then
@@ -139,13 +145,50 @@ if [ "$SETUP_SSL" = "y" ]; then
         ssl_protocols TLSv1.2 TLSv1.3;
         ssl_ciphers HIGH:!aNULL:!MD5;
 
+        location / {
+            proxy_pass http://next_app:3000;
+            proxy_set_header Host \$host;
+            proxy_set_header X-Real-IP \$remote_addr;
+            proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto \$scheme;
+        }
+
+        location /api {
+            proxy_pass http://nest_app:3001;
+            proxy_set_header Host \$host;
+            proxy_set_header X-Real-IP \$remote_addr;
+            proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto \$scheme;
+        }
+    }
 EOF
 else
     cat <<EOF >> nginx/nginx.conf
+        location / {
+            proxy_pass http://next_app:3000;
+            proxy_set_header Host \$host;
+            proxy_set_header X-Real-IP \$remote_addr;
+            proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto \$scheme;
+        }
+
+        location /api {
+            proxy_pass http://nest_app:3001;
+            proxy_set_header Host \$host;
+            proxy_set_header X-Real-IP \$remote_addr;
+            proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto \$scheme;
+        }
+    }
 EOF
 fi
 
 cat <<EOF >> nginx/nginx.conf
+    # Configuration for ngrok domain
+    server {
+        listen 80;
+        server_name ${NGROK_DOMAIN};
+
         location / {
             proxy_pass http://next_app:3000;
             proxy_set_header Host \$host;
@@ -163,10 +206,14 @@ cat <<EOF >> nginx/nginx.conf
         }
     }
 
-    # Configuration for ngrok domain
     server {
-        listen 80;
+        listen 443 ssl;
         server_name ${NGROK_DOMAIN};
+
+        ssl_certificate /etc/nginx/ssl/cert.pem;
+        ssl_certificate_key /etc/nginx/ssl/key.pem;
+        ssl_protocols TLSv1.2 TLSv1.3;
+        ssl_ciphers HIGH:!aNULL:!MD5;
 
         location / {
             proxy_pass http://next_app:3000;
@@ -189,7 +236,17 @@ EOF
 
 print_message "NGINX configuration created."
 
-# Step 8: Generate ngrok.yml and start_ngrok.sh
+# Step 8: Build and Start the Services
+print_message "Step 9: Building and starting the services..."
+# TODO : Add --build
+docker-compose up -d || {
+    print_error "Failed to build and start the services."
+    exit 1
+}
+
+print_message "All services have been successfully started! Your backend services are accessible at ${CUSTOM_DOMAIN}/api or ${NGROK_DOMAIN}/api"
+
+# Step 9: Generate ngrok.yml and start_ngrok.sh
 print_message "Step 8: Generating ngrok.yml and start_ngrok.sh..."
 
 cat <<EOF > ngrok.yml
@@ -261,12 +318,3 @@ EOF
 chmod +x start_ngrok.sh
 
 print_message "ngrok.yml and start_ngrok.sh have been generated."
-
-# Step 9: Build and Start the Services
-print_message "Step 9: Building and starting the services..."
-docker-compose up --build || {
-    print_error "Failed to build and start the services."
-    exit 1
-}
-
-print_message "All services have been successfully started! Your backend services are accessible at ${CUSTOM_DOMAIN}/api or ${NGROK_DOMAIN}/api"
