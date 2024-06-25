@@ -37,10 +37,3 @@ tunnels:
     proto: http
     domain: ${NGROK_DOMAIN}
     host_header: ${NGROK_DOMAIN}
-EOF
-
-echo "ngrok.yml has been generated with environment variables."
-
-# Start ngrok
-echo "Starting ngrok..."
-ngrok start --all --config=./ngrok.yml
