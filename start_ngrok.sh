@@ -22,18 +22,25 @@ if ! check_port 3001; then
 fi
 
 # Generate ngrok.yml
-cat << EOF > ngrok.yml
-authtoken: ${NGROK_AUTH_TOKEN}
+cat << EOT > ngrok.yml
+authtoken: $NGROK_AUTH_TOKEN
 version: "2"
 web_addr: localhost:4040
 tunnels:
   nginx:
     addr: 80
     proto: http
-    domain: ${NGROK_DOMAIN}
-    host_header: ${NGROK_DOMAIN}
+    domain: $NGROK_DOMAIN
+    host_header: $NGROK_DOMAIN
   nginx-https:
     addr: 443
     proto: http
-    domain: ${NGROK_DOMAIN}
-    host_header: ${NGROK_DOMAIN}
+    domain: $NGROK_DOMAIN
+    host_header: $NGROK_DOMAIN
+EOT
+
+echo "ngrok.yml has been generated with environment variables."
+
+# Start ngrok
+echo "Starting ngrok..."
+ngrok start --all --config=./ngrok.yml

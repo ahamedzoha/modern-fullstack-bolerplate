@@ -15,7 +15,8 @@ const envSchema = z.object({
 const env = envSchema.safeParse(process.env)
 
 if (!env.success) {
+  console.error("Validation Errors:", env.error.format())
   throw new Error("Invalid environment variables")
 }
 
-export const { NEXT_PUBLIC_API_BASE_URL: API_BASE_URL } = env.data // Access the variables
+export const { NEXT_PUBLIC_API_BASE_URL } = env.data // Access the variables

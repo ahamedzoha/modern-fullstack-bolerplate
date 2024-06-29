@@ -1,4 +1,4 @@
-import { API_BASE_URL } from "@/lib/env"
+import { NEXT_PUBLIC_API_BASE_URL as API_BASE_URL } from "@/lib/safe-env"
 import { User } from "@clerk/backend"
 import { cookies } from "next/headers"
 

@@ -95,7 +95,7 @@ NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
 NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
 NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/dashboard
 
-NEXT_PUBLIC_API_BASE_URL=/api
+NEXT_PUBLIC_API_BASE_URL=http://nest_app:3001/api
 EOF
 
 print_message "Frontend .env.local file created."
@@ -246,27 +246,10 @@ docker-compose up --build -d || {
 
 print_message "All services have been successfully started! Your backend services are accessible at ${CUSTOM_DOMAIN}/api or ${NGROK_DOMAIN}/api"
 
-# Step 9: Generate ngrok.yml and start_ngrok.sh
-print_message "Step 8: Generating ngrok.yml and start_ngrok.sh..."
+# Step 9: Generate start_ngrok.sh
+print_message "Step 9: Generating start_ngrok.sh..."
 
-cat <<EOF > ngrok.yml
-authtoken: ${NGROK_AUTH_TOKEN}
-version: "2"
-web_addr: localhost:4040
-tunnels:
-  nginx:
-    addr: 80
-    proto: http
-    domain: ${NGROK_DOMAIN}
-    host_header: ${NGROK_DOMAIN}
-  nginx-https:
-    addr: 443
-    proto: http
-    domain: ${NGROK_DOMAIN}
-    host_header: ${NGROK_DOMAIN}
-EOF
-
-cat <<EOF > start_ngrok.sh
+cat <<'EOF' > start_ngrok.sh
 #!/bin/bash
 
 # Load environment variables
@@ -274,7 +257,7 @@ source .env
 
 # Function to check if a port is in use
 check_port() {
-    nc -z localhost \$1 > /dev/null 2>&1
+    nc -z localhost $1 > /dev/null 2>&1
 }
 
 # Check if services are running
@@ -291,22 +274,22 @@ if ! check_port 3001; then
 fi
 
 # Generate ngrok.yml
-cat << EOF > ngrok.yml
-authtoken: \${NGROK_AUTH_TOKEN}
+cat << EOT > ngrok.yml
+authtoken: $NGROK_AUTH_TOKEN
 version: "2"
 web_addr: localhost:4040
 tunnels:
   nginx:
     addr: 80
     proto: http
-    domain: \${NGROK_DOMAIN}
-    host_header: \${NGROK_DOMAIN}
+    domain: $NGROK_DOMAIN
+    host_header: $NGROK_DOMAIN
   nginx-https:
     addr: 443
     proto: http
-    domain: \${NGROK_DOMAIN}
-    host_header: \${NGROK_DOMAIN}
-EOF
+    domain: $NGROK_DOMAIN
+    host_header: $NGROK_DOMAIN
+EOT
 
 echo "ngrok.yml has been generated with environment variables."
 
@@ -317,4 +300,4 @@ EOF
 
 chmod +x start_ngrok.sh
 
-print_message "ngrok.yml and start_ngrok.sh have been generated."
+print_message "start_ngrok.sh has been generated and made executable."
