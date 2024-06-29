@@ -108,7 +108,8 @@ This will create a public URL that you can use to access your application from a
       NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
       NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/dashboard
 
-      NEXT_PUBLIC_API_BASE_URL=/api
+      # Update the following with your ngrok domain or public domain where the backend service is available
+      NEXT_PUBLIC_API_BASE_URL=http://nest_app:3001/api
       ```
 
     - Create a `.env` file in the `be` directory:
