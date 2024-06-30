@@ -1,10 +1,10 @@
-import { OrgCreateFormComponent } from "./(components)/org-create-form.component"
-import { OrgUserDataTable } from "./(components)/org-user-data-table.component"
+import { OrgCreateFormComponent } from "@/components/dashboard/organization/org-create-form.component"
+import { OrgUserDataTable } from "@/components/dashboard/organization/org-user-data-table.component"
 
 /**
  * Manage organization page.
  * Create, update, and delete organizations.
- * Add users to organizations.
+ * Add/remove users to organizations.
  * @returns
  */
 const OrgPage = () => {
