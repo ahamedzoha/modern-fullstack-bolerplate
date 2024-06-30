@@ -1,7 +1,7 @@
 "use client"
 
+import { Button } from "@/components/ui/button"
 import {
-  Form,
   FormControl,
   FormDescription,
   FormField,
@@ -12,7 +12,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { toast } from "@/components/ui/use-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { FormProvider, useForm } from "react-hook-form"
+import { useFormContext } from "react-hook-form"
 import { z } from "zod"
 
 const FormSchema = z.object({
@@ -23,7 +24,7 @@ const FormSchema = z.object({
 })
 
 export const OrgCreateFormComponent = () => {
-  const form = useForm<z.infer<typeof FormSchema>>({
+  const methods = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       organizationName: "",
@@ -43,40 +44,48 @@ export const OrgCreateFormComponent = () => {
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className=" space-y-6">
-        <FormField
-          control={form.control}
-          name="organizationName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Organization Name</FormLabel>
-              <FormControl>
-                <Input placeholder="A.B.C Org" {...field} />
-              </FormControl>
-
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="organizationDescription"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Organization Description</FormLabel>
-              <FormControl>
-                <Input placeholder="A.B.C Org" {...field} />
-              </FormControl>
-              <FormDescription>
-                Add a short description of your organization.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+    <FormProvider {...methods}>
+      <form onSubmit={methods.handleSubmit(onSubmit)} id="org-create-form">
+        <OrgCreateFormFields />
       </form>
-    </Form>
+    </FormProvider>
+  )
+}
+
+export const OrgCreateFormFields = () => {
+  const { control } = useFormContext()
+
+  return (
+    <div className="space-y-6">
+      <FormField
+        control={control}
+        name="organizationName"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Organization Name</FormLabel>
+            <FormControl>
+              <Input placeholder="A.B.C Org" {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={control}
+        name="organizationDescription"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Organization Description</FormLabel>
+            <FormControl>
+              <Input placeholder="A.B.C Org" {...field} />
+            </FormControl>
+            <FormDescription>
+              Add a short description of your organization.
+            </FormDescription>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    </div>
   )
 }

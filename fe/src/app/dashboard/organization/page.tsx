@@ -28,7 +28,9 @@ const OrgPage = () => {
             <OrgCreateFormComponent />
           </CardContent>
           <CardFooter className="flex justify-between">
-            <Button type="submit">Submit</Button>
+            <Button form="" type="submit">
+              Submit
+            </Button>
           </CardFooter>
         </Card>
 
