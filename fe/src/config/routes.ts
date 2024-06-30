@@ -48,10 +48,14 @@ export interface IPublicRoute {
 const protectedRoutes: IProtectedRoute[] = [
   { href: "", icon: Building2, label: "Acme Inc", isPrimary: true },
   { href: "/dashboard", icon: Home, label: "Dashboard" },
-  { href: "/dashboard/organization", icon: BlocksIcon, label: "Organization" },
-  // { href: "/orders", icon: ShoppingCart, label: "Orders", isAccent: true },
-  // { href: "/products", icon: Package, label: "Products" },
-  // { href: "/analytics", icon: LineChart, label: "Analytics" },
+  {
+    href: "/dashboard/organization",
+    icon: BlocksIcon,
+    label: "Organization",
+  },
+  { href: "/orders", icon: ShoppingCart, label: "Orders" },
+  { href: "/products", icon: Package, label: "Products" },
+  { href: "/analytics", icon: LineChart, label: "Analytics" },
   { href: "/settings", icon: Settings, label: "Settings" },
 ]
 
