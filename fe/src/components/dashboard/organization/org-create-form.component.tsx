@@ -1,14 +1,5 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
 import {
   Form,
   FormControl,
@@ -19,7 +10,6 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { toast } from "@/components/ui/use-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -55,50 +45,37 @@ export const OrgCreateFormComponent = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className=" space-y-6">
-        <Card className="w-[350px]">
-          <CardHeader>
-            <CardTitle>Create an Organization</CardTitle>
-            <CardDescription>
-              Create an organization to manage your projects and users.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <FormField
-              control={form.control}
-              name="organizationName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Organization Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="A.B.C Org" {...field} />
-                  </FormControl>
+        <FormField
+          control={form.control}
+          name="organizationName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Organization Name</FormLabel>
+              <FormControl>
+                <Input placeholder="A.B.C Org" {...field} />
+              </FormControl>
 
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-            <FormField
-              control={form.control}
-              name="organizationDescription"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Organization Description</FormLabel>
-                  <FormControl>
-                    <Input placeholder="A.B.C Org" {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    Add a short description of your organization.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </CardContent>
-          <CardFooter className="flex justify-between">
-            <Button type="submit">Submit</Button>
-          </CardFooter>
-        </Card>
+        <FormField
+          control={form.control}
+          name="organizationDescription"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Organization Description</FormLabel>
+              <FormControl>
+                <Input placeholder="A.B.C Org" {...field} />
+              </FormControl>
+              <FormDescription>
+                Add a short description of your organization.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       </form>
     </Form>
   )
