@@ -13,7 +13,7 @@ import { Project } from "@/interfaces/project/index.interface"
 import { User } from "@/interfaces/user/index.interface"
 import { DotsHorizontalIcon } from "@radix-ui/react-icons"
 import { ColumnDef } from "@tanstack/react-table"
-import { ChevronDownIcon, ChevronUpIcon } from "lucide-react"
+import { ChevronDownIcon, ChevronRight } from "lucide-react"
 
 export const columns: ColumnDef<OrgData>[] = [
   {
@@ -48,9 +48,9 @@ export const columns: ColumnDef<OrgData>[] = [
         className="p-0 h-8 w-8"
       >
         {row.getIsExpanded() ? (
-          <ChevronUpIcon className="h-4 w-4" />
-        ) : (
           <ChevronDownIcon className="h-4 w-4" />
+        ) : (
+          <ChevronRight className="h-4 w-4" />
         )}
       </Button>
     ),
