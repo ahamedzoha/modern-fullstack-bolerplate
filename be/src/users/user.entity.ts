@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn, ManyToMany, JoinTable } from 'typeorm';
 import { User as UserInterface } from '@clerk/clerk-sdk-node';
+import { Role } from '../roles/roles.entity';
 
 @Entity()
 export class User implements Partial<UserInterface> {
@@ -32,4 +33,8 @@ export class User implements Partial<UserInterface> {
 
   @Column({ default: false })
   passwordEnabled: boolean;
+
+  @ManyToMany(() => Role)
+  @JoinTable()
+  roles: Role[];
 }
