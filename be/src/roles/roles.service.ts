@@ -16,8 +16,16 @@ export class RolesService {
     return this.rolesRepository.save(role);
   }
 
-  findAll(): Promise<Role[]> {
-    return this.rolesRepository.find({ relations: ['permissions'] });
+  async getRoles() {
+    return this.rolesRepository.find();
+  }
+
+  async getRoleById(id: string) {
+    return this.rolesRepository.find({ where: { id } });
+  }
+
+  async deleteRole(id: string) {
+    return this.rolesRepository.delete(id);
   }
 
   findOne(id: string): Promise<Role> {
@@ -25,5 +33,8 @@ export class RolesService {
       where: { id },
       relations: ['permissions'],
     });
+  }
+  findAll(): Promise<Role[]> {
+    return this.rolesRepository.find({ relations: ['permissions'] });
   }
 }

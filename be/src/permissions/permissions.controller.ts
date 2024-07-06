@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
 import { PermissionsService } from './permissions.service';
 import { CreatePermissionDto } from './dtos/create-permission.dto';
+import { ClerkAuthGuardGuard } from 'src/clerk-auth/clerk-auth.guard';
 
 @Controller('permissions')
+@UseGuards(ClerkAuthGuardGuard)
 export class PermissionsController {
   constructor(private readonly permissionsService: PermissionsService) {}
 
@@ -14,5 +16,10 @@ export class PermissionsController {
   @Get()
   findAll() {
     return this.permissionsService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.permissionsService.findOne(id);
   }
 }

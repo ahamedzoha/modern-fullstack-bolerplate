@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryColumn, ManyToMany, JoinTable } from 'typeorm';
 import { User as UserInterface } from '@clerk/clerk-sdk-node';
-import { Role } from '../roles/roles.entity';
+import { Role } from 'src/roles/roles.entity';
 
 @Entity()
 export class User implements Partial<UserInterface> {
