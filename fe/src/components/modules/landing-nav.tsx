@@ -1,5 +1,6 @@
 "use client"
 
+import { Skeleton } from "../ui/skeleton"
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -83,6 +84,13 @@ export function LandingNav() {
               )}
             </NavigationMenuItem>
           ))}
+          {/* Skeleton loaders */}
+          {!isLoaded && (
+            <div className="flex gap-x-4">
+              <Skeleton className="h-6 w-14" />
+              <Skeleton className="h-6 w-14" />
+            </div>
+          )}
           {/* Sign up/sign in */}
           {isLoaded && !isSignedIn && (
             <>
