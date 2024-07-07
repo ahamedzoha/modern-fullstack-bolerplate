@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  UseGuards,
+  Delete,
+} from '@nestjs/common';
 import { PermissionsService } from './permissions.service';
 import { CreatePermissionDto } from './dtos/create-permission.dto';
 import { ClerkAuthGuardGuard } from 'src/clerk-auth/clerk-auth.guard';
@@ -21,5 +29,10 @@ export class PermissionsController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.permissionsService.findOne(id);
+  }
+
+  @Delete(':id')
+  deletePermission(@Param('id') id: string) {
+    return this.permissionsService.deletePermission(id);
   }
 }

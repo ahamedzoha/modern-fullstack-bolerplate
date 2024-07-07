@@ -52,6 +52,9 @@ export class UsersService {
         lastName,
         emailAddress: [email],
         password,
+        publicMetadata: {
+          roleIds,
+        },
       });
 
       // Create user in local DB
@@ -63,6 +66,9 @@ export class UsersService {
         hasImage: clerkUser.hasImage,
         imageUrl: clerkUser.imageUrl,
         passwordEnabled: clerkUser.passwordEnabled,
+        createdAt: clerkUser.createdAt,
+        updatedAt: clerkUser.updatedAt,
+        username: clerkUser.username,
         roles,
       });
 
@@ -112,6 +118,9 @@ export class UsersService {
           lastName: clerkUser.lastName,
           passwordEnabled: clerkUser.passwordEnabled,
           roles,
+          createdAt: clerkUser.createdAt,
+          updatedAt: clerkUser.updatedAt,
+          isDeleted: false,
         };
 
         return this.usersRepository.save(user);

@@ -23,4 +23,8 @@ export class PermissionsService {
   findOne(id: string): Promise<Permission> {
     return this.permissionsRepository.findOne({ where: { id } });
   }
+
+  async deletePermission(id: string) {
+    return this.permissionsRepository.delete(id);
+  }
 }
