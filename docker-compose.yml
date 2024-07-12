@@ -19,12 +19,10 @@ services:
   frontend:
     build:
       context: ./fe
+      target: development
     container_name: next_app
     ports:
       - "3000:3000"
-    volumes:
-      - ./fe:/app
-      - /app/node_modules
     env_file:
       - ./fe/.env.local
     networks:
