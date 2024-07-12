@@ -21,7 +21,7 @@ services:
       DB_USERNAME=$DB_USERNAME
       DB_PASSWORD=$DB_PASSWORD
       DB_NAME=$DB_NAME
-      DB_SYNCHRONIZE=$DB_SYNCHRONIZE' > .env && npm run start:prod"
+      DB_SYNCHRONIZE=$DB_SYNCHRONIZE' > .env"
     depends_on:
       - postgres
     networks:
@@ -47,7 +47,7 @@ services:
       NEXT_PUBLIC_CLERK_SIGN_IN_URL=$NEXT_PUBLIC_CLERK_SIGN_IN_URL
       NEXT_PUBLIC_CLERK_SIGN_UP_URL=$NEXT_PUBLIC_CLERK_SIGN_UP_URL
       NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=$NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL
-      NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL' > .env.production && node server.js"
+      NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL' > .env.production"
     networks:
       - app-network
 
