@@ -9,12 +9,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { useAuth, useUser } from "@clerk/nextjs"
 import Image from "next/image"
 
 const UserMenu = () => {
-  const { user } = useUser()
-  const { signOut } = useAuth()
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -24,7 +21,7 @@ const UserMenu = () => {
           className="overflow-hidden rounded-full"
         >
           <Image
-            src={user?.imageUrl || "/images/avatar-placeholder.png"}
+            src={"/images/avatar-placeholder.png"}
             width={36}
             height={36}
             alt="Avatar"
@@ -38,7 +35,7 @@ const UserMenu = () => {
         <DropdownMenuItem>Settings</DropdownMenuItem>
         <DropdownMenuItem>Support</DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => signOut()}>Logout</DropdownMenuItem>
+        <DropdownMenuItem>Logout</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )

@@ -14,7 +14,7 @@ export default async function Home() {
         h-dvh
       "
       >
-        <h1 className="text-9xl font-bold">Welcome to the home</h1>
+        <h1 className="text-9xl font-bold">Welcome to the page</h1>
         <div className="mt-4">
           <h2 className="text-4xl font-bold">Users</h2>
         </div>

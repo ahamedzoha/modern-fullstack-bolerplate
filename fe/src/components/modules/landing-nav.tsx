@@ -1,6 +1,7 @@
-"use client"
-
-import { Skeleton } from "../ui/skeleton"
+// "use client"
+import { SignIn } from "./sign-in-button.component"
+import { SignOut } from "./sign-out-button.component"
+import { logtoConfig } from "@/app/logto"
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -12,16 +13,16 @@ import {
 } from "@/components/ui/navigation-menu"
 import { publicRoutes } from "@/config/routes"
 import { cn } from "@/lib/utils"
-import { useAuth } from "@clerk/nextjs"
+import { getLogtoContext, signIn } from "@logto/next/server-actions"
 import Link from "next/link"
 import * as React from "react"
 
 /**
  * Component for rendering the landing navigation menu.
  */
-export function LandingNav() {
-  const { isLoaded, isSignedIn, signOut } = useAuth()
-
+export async function LandingNav() {
+  const { isAuthenticated, claims } = await getLogtoContext(logtoConfig)
+  console.log(isAuthenticated, claims)
   return (
     <div className="flex items-center justify-center w-full">
       <NavigationMenu>
@@ -84,22 +85,21 @@ export function LandingNav() {
               )}
             </NavigationMenuItem>
           ))}
-          {/* Skeleton loaders */}
-          {!isLoaded && (
-            <div className="flex gap-x-4">
-              <Skeleton className="h-6 w-14" />
-              <Skeleton className="h-6 w-14" />
-            </div>
-          )}
+
           {/* Sign up/sign in */}
-          {isLoaded && !isSignedIn && (
+          {!isAuthenticated && (
             <>
               <NavigationMenuItem className="cursor-pointer">
-                <Link href="/sign-in" legacyBehavior passHref>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                    Sign in
-                  </NavigationMenuLink>
-                </Link>
+                {/* <Link href="/sign-in" legacyBehavior passHref> */}
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  <SignIn
+                    onSignIn={async () => {
+                      "use server"
+                      await signIn(logtoConfig)
+                    }}
+                  />
+                </NavigationMenuLink>
+                {/* </Link> */}
               </NavigationMenuItem>
               <NavigationMenuItem className="cursor-pointer">
                 <Link href="/sign-up" legacyBehavior passHref>
@@ -110,8 +110,9 @@ export function LandingNav() {
               </NavigationMenuItem>
             </>
           )}
+
           {/* Signed in Dashboard */}
-          {isLoaded && isSignedIn && (
+          {isAuthenticated && (
             <>
               <NavigationMenuItem className="cursor-pointer">
                 <Link href="/dashboard" legacyBehavior passHref>
@@ -121,11 +122,13 @@ export function LandingNav() {
                 </Link>
               </NavigationMenuItem>
               <NavigationMenuItem className="cursor-pointer">
-                <NavigationMenuLink
-                  className={navigationMenuTriggerStyle()}
-                  onClick={() => signOut()}
-                >
-                  Sign out
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  <SignOut
+                    onSignOut={async () => {
+                      "use server"
+                      await signIn(logtoConfig)
+                    }}
+                  />
                 </NavigationMenuLink>
               </NavigationMenuItem>
             </>

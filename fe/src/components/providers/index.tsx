@@ -2,7 +2,6 @@
 
 import QueryProvider from "./query-provider"
 import { ThemeProvider } from "./theme-provider"
-import { ClerkProvider } from "@clerk/nextjs"
 import { FC, PropsWithChildren } from "react"
 
 const Providers: FC<PropsWithChildren> = ({ children }) => {
@@ -13,15 +12,7 @@ const Providers: FC<PropsWithChildren> = ({ children }) => {
       enableSystem
       disableTransitionOnChange
     >
-      <ClerkProvider
-        appearance={{
-          signUp: {
-            elements: {},
-          },
-        }}
-      >
-        <QueryProvider>{children}</QueryProvider>
-      </ClerkProvider>
+      <QueryProvider>{children}</QueryProvider>
     </ThemeProvider>
   )
 }
