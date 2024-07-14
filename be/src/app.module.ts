@@ -23,9 +23,9 @@ import typeorm from './config/typeorm';
         configService.get('typeorm'),
     }),
     PrometheusModule.register(),
-    UsersModule,
-    RolesModule,
-    PermissionsModule,
+    // UsersModule,
+    // RolesModule,
+    // PermissionsModule,
   ],
   controllers: [AppController],
   providers: [
