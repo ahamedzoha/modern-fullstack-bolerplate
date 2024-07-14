@@ -20,6 +20,9 @@ services:
     build:
       context: ./fe
       target: development
+    volumes:
+      - ./fe:/app
+      - /app/node_modules
     container_name: next_app
     ports:
       - "3000:3000"
