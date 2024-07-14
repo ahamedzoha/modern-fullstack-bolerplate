@@ -6,9 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PrometheusModule } from '@willsoto/nestjs-prometheus';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { LoggingInterceptor } from './global/logging.interceptor';
-import { UsersModule } from './users/users.module';
-import { RolesModule } from './roles/roles.module';
-import { PermissionsModule } from './permissions/permissions.module';
+
 import typeorm from './config/typeorm';
 
 @Module({
@@ -23,9 +21,6 @@ import typeorm from './config/typeorm';
         configService.get('typeorm'),
     }),
     PrometheusModule.register(),
-    // UsersModule,
-    // RolesModule,
-    // PermissionsModule,
   ],
   controllers: [AppController],
   providers: [
