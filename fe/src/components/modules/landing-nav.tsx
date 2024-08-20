@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/navigation-menu"
 import { publicRoutes } from "@/config/routes"
 import { cn } from "@/lib/utils"
-import { getLogtoContext, signIn } from "@logto/next/server-actions"
+import { getLogtoContext, signIn, signOut } from "@logto/next/server-actions"
 import Link from "next/link"
 import * as React from "react"
 
@@ -23,6 +23,7 @@ import * as React from "react"
 export async function LandingNav() {
   const { isAuthenticated, claims } = await getLogtoContext(logtoConfig)
   console.log(isAuthenticated, claims)
+  console.log(logtoConfig)
   return (
     <div className="flex items-center justify-center w-full">
       <NavigationMenu>
@@ -87,52 +88,52 @@ export async function LandingNav() {
           ))}
 
           {/* Sign up/sign in */}
-          {!isAuthenticated && (
-            <>
-              <NavigationMenuItem className="cursor-pointer">
-                {/* <Link href="/sign-in" legacyBehavior passHref> */}
+          {/* {!isAuthenticated && ( */}
+          <>
+            <NavigationMenuItem className="cursor-pointer">
+              {/* <Link href="/sign-in" legacyBehavior passHref> */}
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                <SignIn
+                  onSignIn={async () => {
+                    "use server"
+                    await signIn(logtoConfig)
+                  }}
+                />
+              </NavigationMenuLink>
+              {/* </Link> */}
+            </NavigationMenuItem>
+            <NavigationMenuItem className="cursor-pointer">
+              <Link href="/sign-up" legacyBehavior passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  <SignIn
-                    onSignIn={async () => {
-                      "use server"
-                      await signIn(logtoConfig)
-                    }}
-                  />
+                  Sign up
                 </NavigationMenuLink>
-                {/* </Link> */}
-              </NavigationMenuItem>
-              <NavigationMenuItem className="cursor-pointer">
-                <Link href="/sign-up" legacyBehavior passHref>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                    Sign up
-                  </NavigationMenuLink>
-                </Link>
-              </NavigationMenuItem>
-            </>
-          )}
+              </Link>
+            </NavigationMenuItem>
+          </>
+          {/* )} */}
 
           {/* Signed in Dashboard */}
-          {isAuthenticated && (
-            <>
-              <NavigationMenuItem className="cursor-pointer">
-                <Link href="/dashboard" legacyBehavior passHref>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                    Dashboard
-                  </NavigationMenuLink>
-                </Link>
-              </NavigationMenuItem>
-              <NavigationMenuItem className="cursor-pointer">
+          {/* {isAuthenticated && ( */}
+          <>
+            <NavigationMenuItem className="cursor-pointer">
+              <Link href="/dashboard" legacyBehavior passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  <SignOut
-                    onSignOut={async () => {
-                      "use server"
-                      await signIn(logtoConfig)
-                    }}
-                  />
+                  Dashboard
                 </NavigationMenuLink>
-              </NavigationMenuItem>
-            </>
-          )}
+              </Link>
+            </NavigationMenuItem>
+            <NavigationMenuItem className="cursor-pointer">
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                <SignOut
+                  onSignOut={async () => {
+                    "use server"
+                    await signOut(logtoConfig)
+                  }}
+                />
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+          </>
+          {/* )} */}
         </NavigationMenuList>
       </NavigationMenu>
     </div>
