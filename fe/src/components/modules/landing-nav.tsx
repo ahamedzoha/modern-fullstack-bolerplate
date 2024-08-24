@@ -1,4 +1,3 @@
-// "use client"
 import { SignIn } from "./sign-in-button.component"
 import { SignOut } from "./sign-out-button.component"
 import { logtoConfig } from "@/app/logto"
@@ -13,7 +12,6 @@ import {
 } from "@/components/ui/navigation-menu"
 import { publicRoutes } from "@/config/routes"
 import { cn } from "@/lib/utils"
-import { getLogtoContext, signIn, signOut } from "@logto/next/server-actions"
 import Link from "next/link"
 import * as React from "react"
 
@@ -21,9 +19,6 @@ import * as React from "react"
  * Component for rendering the landing navigation menu.
  */
 export async function LandingNav() {
-  const { isAuthenticated, claims } = await getLogtoContext(logtoConfig)
-  console.log(isAuthenticated, claims)
-  console.log(logtoConfig)
   return (
     <div className="flex items-center justify-center w-full">
       <NavigationMenu>
@@ -96,7 +91,6 @@ export async function LandingNav() {
                 <SignIn
                   onSignIn={async () => {
                     "use server"
-                    await signIn(logtoConfig)
                   }}
                 />
               </NavigationMenuLink>
@@ -127,7 +121,6 @@ export async function LandingNav() {
                 <SignOut
                   onSignOut={async () => {
                     "use server"
-                    await signOut(logtoConfig)
                   }}
                 />
               </NavigationMenuLink>

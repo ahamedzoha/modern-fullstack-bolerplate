@@ -9,6 +9,7 @@ import { z } from "zod"
 
 const envSchema = z.object({
   NEXT_PUBLIC_API_BASE_URL: z.string().url(),
+  NEXT_PUBLIC_API_ISSUER_ENDPOINT: z.string().url(),
   NEXT_PUBLIC_APP_ID: z.string(),
   NEXT_PUBLIC_APP_SECRET: z.string(),
   NEXT_PUBLIC_BASE_URL: z.string().url(),
@@ -17,6 +18,7 @@ const envSchema = z.object({
 
 const env = envSchema.safeParse({
   NEXT_PUBLIC_API_BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL,
+  NEXT_PUBLIC_API_ISSUER_ENDPOINT: process.env.NEXT_PUBLIC_API_ISSUER_ENDPOINT,
   NEXT_PUBLIC_APP_ID: process.env.NEXT_PUBLIC_APP_ID,
   NEXT_PUBLIC_APP_SECRET: process.env.NEXT_PUBLIC_APP_SECRET,
   NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
@@ -30,6 +32,7 @@ if (!env.success) {
 
 export const {
   NEXT_PUBLIC_API_BASE_URL,
+  NEXT_PUBLIC_API_ISSUER_ENDPOINT,
   NEXT_PUBLIC_APP_ID,
   NEXT_PUBLIC_APP_SECRET,
   NEXT_PUBLIC_BASE_URL,

@@ -2,6 +2,7 @@
 
 import QueryProvider from "./query-provider"
 import { ThemeProvider } from "./theme-provider"
+import { SessionProvider } from "next-auth/react"
 import { FC, PropsWithChildren } from "react"
 
 const Providers: FC<PropsWithChildren> = ({ children }) => {
@@ -12,7 +13,9 @@ const Providers: FC<PropsWithChildren> = ({ children }) => {
       enableSystem
       disableTransitionOnChange
     >
-      <QueryProvider>{children}</QueryProvider>
+      <SessionProvider>
+        <QueryProvider>{children}</QueryProvider>
+      </SessionProvider>
     </ThemeProvider>
   )
 }
