@@ -1,14 +1,12 @@
 "use client"
 
-type Props = {
-  onSignOut: () => Promise<void>
-}
+import { signOut } from "next-auth/react"
 
-export const SignOut = ({ onSignOut }: Props) => {
+export const SignOut = () => {
   return (
     <button
       onClick={() => {
-        onSignOut()
+        signOut()
       }}
     >
       Sign Out

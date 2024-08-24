@@ -2,11 +2,7 @@
 
 import { useSession, signIn, signOut } from "next-auth/react"
 
-type Props = {
-  onSignIn: () => Promise<void>
-}
-
-export const SignIn = ({ onSignIn }: Props) => {
+export const SignIn = () => {
   const { data: session } = useSession()
   console.log(session)
 
