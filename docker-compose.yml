@@ -19,12 +19,10 @@ services:
   frontend:
     build:
       context: ./fe
+      target: development
     container_name: next_app
     ports:
       - "3000:3000"
-    volumes:
-      - ./fe:/app
-      - /app/node_modules
     env_file:
       - ./fe/.env.local
     networks:
@@ -52,6 +50,7 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_SERVER_JSON_FILE: /pgadmin4/servers.json
     networks:
       - app-network
 

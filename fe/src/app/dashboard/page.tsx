@@ -1,4 +1,4 @@
-import WelcomeBox from "./(components)/welcome-box.component"
+import WelcomeBox from "@/components/dashboard/welcome-box.component"
 import { Dashboard } from "@/components/modules/dashboard"
 
 const DashboardLandingPage = () => {
